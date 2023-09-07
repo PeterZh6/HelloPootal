@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>I ♥ Pootal</title>
+  <style>
+    body {
+      margin: 280px;
+      font-family: Arial;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto ;
+      padding: 50px;
+      background: linear-gradient( #ff93ac,#ffcce6); 
+      border-radius: 50px;
+
+    }
+
+
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input:focus {
+    outline: none; 
+}
+    input.error {
+      border: 3px solid;
+      border-color: red;
+    }
+
+    input.success {
+      border: 3px solid;
+      border-color: green;
+    }
+
+    .submit-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #ccc;
+      border: none;
+      color: #fff;
+      cursor: not-allowed;
+    }
+
+    .submit-button.enabled {
+      background-color: #007bff;
+      cursor: pointer;
+    }
+
+    .result {
+      color: #333;
+      font-weight: bold;
+    }
+    /* 深色浅色主题切换 */
+     /* 深色模式 */
+    @media (prefers-color-scheme: dark) {
+    body { background: #333; color: white;
+      .container {
+    filter: brightness(0.85); /* 看起来舒服点，突发奇想就加了个hhh*/
+  }
+  }
+    }
+    /* 浅色模式 */
+    @media (prefers-color-scheme: light) {
+    body { background: white; color: #333; }
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span>Email:</span>
+    <input type="email" id="email" placeholder="Enter your email">
+    <button class="submit-button" disabled>Submit</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById('email');
+    const submitbutton = document.querySelector('.submit-button');
+    const resultDiv = document.getElementById('result');
+
+    emailInput.addEventListener('input', function () {
+      const email = emailInput.value.trim();
+      const regex = /@(connect\.)?hku\.hk$/;
+
+      if (regex.test(email)) {
+        emailInput.classList.remove('error');
+        emailInput.classList.add('success');
+        submitbutton.classList.add('enabled');
+        submitbutton.disabled = false;
+      } else {
+        emailInput.classList.remove('success');
+        emailInput.classList.add('error');
+        submitbutton.classList.remove('enabled');
+        submitbutton.disabled = true;
+      }
+    });
+
+    submitbutton.addEventListener('click', function () {
+      const email = emailInput.value.trim();
+      const uid = email.split('@')[0];
+      resultDiv.textContent = uid;
+    });
+  </script>
+</body>
+</html>
