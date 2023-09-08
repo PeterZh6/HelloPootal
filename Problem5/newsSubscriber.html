@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>News Summary App</title>
+    <style>
+      body {
+        font-family: Arial;
+      }
+
+      css Copy ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 15px;
+      }
+
+      a {
+        color: #000000;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>News Summary App</h1>
+    <ul id="news-list"></ul>
+    <script>
+      const proxyURL = 'https://proxy-for-test-2023.hkupootal.com/?q=';
+      const apiKey = 'c923f04eb734469b92c6b26192f17a45';
+      const apiUrl = 'http://api.mediastack.com/v1/news?access_key=' + apiKey;
+      fetch(proxyURL + encodeURIComponent(apiUrl)).then(response => response.json()).then(data => {
+        const newsList = document.getElementById('news-list');
+        data.data.forEach(article => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = article.url;
+          link.textContent = article.title;
+          listItem.appendChild(link);
+          newsList.appendChild(listItem);
+        });
+      })
+    </script>
+  </body>
+</html>
