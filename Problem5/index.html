@@ -1,119 +1,168 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>POOTAL News</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <title>POOTAL News</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
 
-    h1 {
-      text-align: center;
-      padding: 20px 0;
-      font-family: Arial, sans-serif;
-      font-size: 40px;
-      font-weight: bold;
-      background-image: linear-gradient( #4285F4, #DB4437, #F4B400, #4285F4, #0F9D58, #F4B400);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+      h1 {
+        text-align: center;
+        padding: 20px 0;
+        font-family: Arial, sans-serif;
+        font-size: 40px;
+        font-weight: bold;
+        background-image: linear-gradient(#4285F4, #DB4437, #F4B400, #4285F4, #0F9D58, #F4B400);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      padding: 0px;
-    }
+      .categories {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
 
-    .card {
-      background-color: #ffffff;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: box-shadow 0.3s ease-in-out;
-    }
+      .category-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        padding: 10px;
+        margin: 0 5px;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+      }
 
-    .card:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+      .category-link:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
 
-    .card img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-
-    .card a {
-      color: #000000;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .card-description {
-      margin-top: 10px;
-      color: #777777;
-    }
-
-    @media (max-width: 600px) {
       .news-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      }
-    }
-  </style>
-</head>
-<body>
-  <h1>POOTAL<span style="background-image: linear-gradient(to right, #E91E63, #FF4081); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"> news</span></h1>
-  <div class="news-grid" id="news-list"></div>
-  <script>
-const proxyURL = 'https://proxy-for-test-2023.hkupootal.com/?q=';
-const apiKey = 'c923f04eb734469b92c6b26192f17a45';
-const apiUrl = 'http://api.mediastack.com/v1/news?access_key=' + apiKey;
-
-fetch(proxyURL + encodeURIComponent(apiUrl))
-  .then(response => response.json())
-  .then(data => {
-    const newsList = document.getElementById('news-list');
-    data.data.forEach(article => {
-      const card = document.createElement('div');
-      card.className = 'card';
-
-      if (article.image) {
-        const image = document.createElement('img');
-        image.src = article.image;
-        card.appendChild(image);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 0px;
       }
 
-      const cardContent = document.createElement('div');
-      cardContent.className = 'card-content';
+      a {
+        text-decoration: none;
+        color: #000000;
+      }
 
-      const link = document.createElement('a');
-      link.href = article.url;
-      link.textContent = article.title;
-      cardContent.appendChild(link);
+      .card {
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: box-shadow 0.3s ease-in-out;
+      }
 
-      const description = document.createElement('p');
-      description.className = 'card-description';
-      description.textContent = article.description;
-      cardContent.appendChild(description);
+      .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
 
-      // Add click event listener to the card
-      card.addEventListener('click', () => {
-        window.location.href = article.url;
+      .card img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      .card a {
+        color: #000000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .card-description {
+        margin-top: 10px;
+        color: #777777;
+      }
+
+      @media (max-width: 600px) {
+        .news-grid {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>POOTAL <span style="background-image: linear-gradient(to right, #e60b54, #f5a9c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"> news</span>
+    </h1>
+    <div class="categories">
+      <a href="#" class="category-link" data-category="">All Categories</a>
+      <a href="#" class="category-link" data-category="general">General</a>
+      <a href="#" class="category-link" data-category="business">Business</a>
+      <a href="#" class="category-link" data-category="entertainment">Entertainment</a>
+      <a href="#" class="category-link" data-category="health">Health</a>
+      <a href="#" class="category-link" data-category="science">Science</a>
+      <a href="#" class="category-link" data-category="sports">Sports</a>
+      <a href="#" class="category-link" data-category="technology">Technology</a>
+    </div>
+    <div class="news-grid" id="news-list"></div>
+    <script>
+      const proxyURL = 'https://proxy-for-test-2023.hkupootal.com/?q=';
+      const apiKey = 'c923f04eb734469b92c6b26192f17a45';
+      const apiUrl = `http://api.mediastack.com/v1/news?access_key=${apiKey}`;
+      //通过https请求参数来获取指定类别的新闻
+      const categoryLinks = document.querySelectorAll('.category-link');
+      categoryLinks.forEach(link => {
+        link.addEventListener('click', handleCategoryClick);
       });
 
-      card.appendChild(cardContent);
-      newsList.appendChild(card);
-    });
-  });
-  </script>
-</body>
+      function handleCategoryClick(event) {
+        event.preventDefault();
+        const selectedCategory = this.getAttribute('data-category');
+        fetchNews(selectedCategory);
+      }
+
+      function fetchNews(category = "") {
+        const url = `${apiUrl}&categories=${category}`;
+        fetch(proxyURL + encodeURIComponent(url)).then(response => response.json()).then(data => {
+          const newsList = document.getElementById('news-list');
+          newsList.innerHTML = '';
+          data.data.forEach(article => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const anchor = document.createElement('a');
+            //点击新闻卡片的任何区域都可以跳转到新闻
+            anchor.href = article.url;
+            anchor.appendChild(card);
+            //创建新的新闻卡片
+            if (article.image) {
+              const image = new Image();
+              image.onload = function() {
+                card.appendChild(image);
+              };
+              image.src = article.image;
+              setTimeout(function() {
+                if (!image.complete) {
+                  // Handle image loading timeout here
+                  console.log('Image loading timed out:', article.image);
+                }
+              }, 4000);
+            }
+            const title = document.createElement('h2');
+            title.textContent = article.title;
+            card.appendChild(title);
+            const description = document.createElement('p');
+            description.textContent = article.description;
+            card.appendChild(description);
+            newsList.appendChild(anchor);
+          });
+        });
+      }
+      fetchNews();
+    </script>
+  </body>
 </html>
