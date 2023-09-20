@@ -1,44 +1,119 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>News Summary App</title>
-    <style>
-      body {
-        font-family: Arial;
+<head>
+  <title>POOTAL News</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px 0;
+      font-family: Arial, sans-serif;
+      font-size: 40px;
+      font-weight: bold;
+      background-image: linear-gradient( #4285F4, #DB4437, #F4B400, #4285F4, #0F9D58, #F4B400);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 0px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .card a {
+      color: #000000;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .card-description {
+      margin-top: 10px;
+      color: #777777;
+    }
+
+    @media (max-width: 600px) {
+      .news-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>POOTAL<span style="background-image: linear-gradient(to right, #E91E63, #FF4081); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"> news</span></h1>
+  <div class="news-grid" id="news-list"></div>
+  <script>
+const proxyURL = 'https://proxy-for-test-2023.hkupootal.com/?q=';
+const apiKey = 'c923f04eb734469b92c6b26192f17a45';
+const apiUrl = 'http://api.mediastack.com/v1/news?access_key=' + apiKey;
+
+fetch(proxyURL + encodeURIComponent(apiUrl))
+  .then(response => response.json())
+  .then(data => {
+    const newsList = document.getElementById('news-list');
+    data.data.forEach(article => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      if (article.image) {
+        const image = document.createElement('img');
+        image.src = article.image;
+        card.appendChild(image);
       }
 
-      css Copy ul {
-        list-style-type: none;
-        padding: 0;
-      }
+      const cardContent = document.createElement('div');
+      cardContent.className = 'card-content';
 
-      li {
-        margin-bottom: 15px;
-      }
+      const link = document.createElement('a');
+      link.href = article.url;
+      link.textContent = article.title;
+      cardContent.appendChild(link);
 
-      a {
-        color: #000000;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>News Summary App</h1>
-    <ul id="news-list"></ul>
-    <script>
-      const proxyURL = 'https://proxy-for-test-2023.hkupootal.com/?q=';
-      const apiKey = 'c923f04eb734469b92c6b26192f17a45';
-      const apiUrl = 'http://api.mediastack.com/v1/news?access_key=' + apiKey;
-      fetch(proxyURL + encodeURIComponent(apiUrl)).then(response => response.json()).then(data => {
-        const newsList = document.getElementById('news-list');
-        data.data.forEach(article => {
-          const listItem = document.createElement('li');
-          const link = document.createElement('a');
-          link.href = article.url;
-          link.textContent = article.title;
-          listItem.appendChild(link);
-          newsList.appendChild(listItem);
-        });
-      })
-    </script>
-  </body>
+      const description = document.createElement('p');
+      description.className = 'card-description';
+      description.textContent = article.description;
+      cardContent.appendChild(description);
+
+      // Add click event listener to the card
+      card.addEventListener('click', () => {
+        window.location.href = article.url;
+      });
+
+      card.appendChild(cardContent);
+      newsList.appendChild(card);
+    });
+  });
+  </script>
+</body>
 </html>
